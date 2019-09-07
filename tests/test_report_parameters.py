@@ -1,4 +1,5 @@
 import lxml.html
+import pytest
 
 from pybirt import ParameterGroup, ScalarParameter
 
@@ -22,25 +23,18 @@ def test_parameter_group_without_parameters():
     assert group.parameters == []
 
 
-def test_scalar_parameter_all_attributes_are_optional():
-    el = lxml.html.fromstring(
-        '<scalar-parameter name="NewParameter3" id="145">'
-        '</scalar-parameter>'
-    )
-    ScalarParameter.build(el)
+@pytest.fixture
+def empty_scalar():
+    return lxml.html.fromstring('<scalar-parameter name="NewParameter3" id="145"></scalar-parameter>')
 
 
-def test_is_required_by_default_is_true():
-    el = lxml.html.fromstring(
-        '<scalar-parameter name="NewParameter3" id="145">'
-        '</scalar-parameter>'
-    )
-    assert ScalarParameter.build(el).is_required
+def test_scalar_parameter_all_attributes_are_optional(empty_scalar):
+    ScalarParameter.build(empty_scalar)
 
 
-def test_is_hidden_by_default_is_false():
-    el = lxml.html.fromstring(
-        '<scalar-parameter name="NewParameter3" id="145">'
-        '</scalar-parameter>'
-    )
-    assert ScalarParameter.build(el).is_hidden is False
+def test_is_required_by_default_is_true(empty_scalar):
+    assert ScalarParameter.build(empty_scalar).is_required
+
+
+def test_is_hidden_by_default_is_false(empty_scalar):
+    assert ScalarParameter.build(empty_scalar).is_hidden is False
