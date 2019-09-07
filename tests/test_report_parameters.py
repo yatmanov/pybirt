@@ -28,3 +28,19 @@ def test_scalar_parameter_all_attributes_are_optional():
         '</scalar-parameter>'
     )
     ScalarParameter.build(el)
+
+
+def test_is_required_by_default_is_true():
+    el = lxml.html.fromstring(
+        '<scalar-parameter name="NewParameter3" id="145">'
+        '</scalar-parameter>'
+    )
+    assert ScalarParameter.build(el).is_required
+
+
+def test_is_hidden_by_default_is_false():
+    el = lxml.html.fromstring(
+        '<scalar-parameter name="NewParameter3" id="145">'
+        '</scalar-parameter>'
+    )
+    assert ScalarParameter.build(el).is_hidden is False
