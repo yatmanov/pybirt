@@ -1,6 +1,6 @@
 import lxml.html
 
-from pybirt import ParameterGroup
+from pybirt import ParameterGroup, ScalarParameter
 
 
 def test_empty_parameter_group():
@@ -20,3 +20,11 @@ def test_parameter_group_without_parameters():
     assert group.name == name
     assert group.display_name == display_name
     assert group.parameters == []
+
+
+def test_scalar_parameter_all_attributes_are_optional():
+    el = lxml.html.fromstring(
+        '<scalar-parameter name="NewParameter3" id="145">'
+        '</scalar-parameter>'
+    )
+    ScalarParameter.build(el)
