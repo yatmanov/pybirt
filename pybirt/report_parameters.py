@@ -28,7 +28,7 @@ class ScalarParameter:
             except (IndexError, AttributeError):
                 _properties.append('')
         required_el = element.xpath('./property[@name="isRequired"]')
-        hidden_el = element.xpath('./property[@name=hidden]')
+        hidden_el = element.xpath('./property[@name="hidden"]')
 
         return cls(
             element.attrib['name'],
