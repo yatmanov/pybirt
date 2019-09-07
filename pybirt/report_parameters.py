@@ -1,3 +1,4 @@
+import contextlib
 import dataclasses
 from typing import List
 
@@ -46,7 +47,6 @@ class ParameterGroup:
     @classmethod
     def build(cls, el: lxml.html.HtmlElement) -> 'ParameterGroup':
         _el = el.xpath('./text-property[name="displayName"]')
-        display_name = _el[0].text if _el else ''
 
         params = el.xpath('./parameters')
         childs = []
@@ -55,9 +55,7 @@ class ParameterGroup:
                 if child.tag == 'parameter-group':
                     childs.append(ParameterGroup.build(child))
                 elif child.tag == 'scalar-parameter':
-                    try:
+                    with contextlib.suppress(Exception):
                         childs.append(ScalarParameter.build(child))
-                    except Exception:
-                        pass
 
-        return cls(el.get('name', 'root'), display_name, childs)
+        return cls(el.get('name', 'root'), _el[0].text if _el else '', childs)
