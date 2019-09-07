@@ -73,3 +73,38 @@ def test_scalar_parameter():
     assert sc.display_format == display_format
     assert sc.is_required is False
     assert sc.is_hidden
+
+
+def test_parameter_group_parameters():
+    el = lxml.html.fromstring('''
+    <parameter-group name="NewParameterGroup" id="139">
+        <text-property name="displayName">MyGroup</text-property>
+        <parameters>
+            <scalar-parameter name="NewParameter" id="140">
+                <property name="valueType">static</property>
+                <property name="isRequired">true</property>
+                <property name="dataType">string</property>
+                <property name="distinct">true</property>
+                <list-property name="selectionList"/>
+                <property name="paramType">simple</property>
+                <property name="controlType">text-box</property>
+                <structure name="format">
+                    <property name="category">Unformatted</property>
+                </structure>
+            </scalar-parameter>
+            <scalar-parameter name="NewParameter2" id="142">
+                <property name="valueType">static</property>
+                <property name="dataType">string</property>
+                <property name="distinct">true</property>
+                <list-property name="selectionList"/>
+                <property name="paramType">simple</property>
+                <property name="controlType">text-box</property>
+                <structure name="format">
+                    <property name="category">Unformatted</property>
+                </structure>
+            </scalar-parameter>
+        </parameters>
+    </parameter-group>
+    ''')
+    pg = ParameterGroup.build(el)
+    assert len(pg.parameters) == 2
