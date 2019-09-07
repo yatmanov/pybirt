@@ -19,7 +19,7 @@ class ScalarParameter:
     @classmethod
     def build(cls, element: lxml.html.HtmlElement) -> 'ScalarParameter':
         _properties = []
-        for xpath in ('./text-property[@name="displayName"]',
+        for xpath in ('./text-property[@name="helpText"]',
                       './property[@name="dataType"]',
                       './property[@name="controlType"]',
                       ):
