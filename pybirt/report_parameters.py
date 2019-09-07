@@ -47,15 +47,17 @@ class ParameterGroup:
     def build(cls, el: lxml.html.HtmlElement) -> 'ParameterGroup':
         _el = el.xpath('./text-property[name="displayName"]')
         display_name = _el[0].text if _el else ''
-        params = el.xpath('./parameters')[0]
+
+        params = el.xpath('./parameters')
         childs = []
-        for child in params.iterchildren():
-            if child.tag == 'parameter-group':
-                childs.append(ParameterGroup.build(child))
-            elif child.tag == 'scalar-parameter':
-                try:
-                    childs.append(ScalarParameter.build(child))
-                except Exception:
-                    pass
+        if params:
+            for child in params[0].iterchildren():
+                if child.tag == 'parameter-group':
+                    childs.append(ParameterGroup.build(child))
+                elif child.tag == 'scalar-parameter':
+                    try:
+                        childs.append(ScalarParameter.build(child))
+                    except Exception:
+                        pass
 
         return cls(el.get('name', 'root'), display_name, childs)
