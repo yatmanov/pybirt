@@ -46,7 +46,7 @@ class ParameterGroup:
 
     @classmethod
     def build(cls, el: lxml.html.HtmlElement) -> 'ParameterGroup':
-        _el = el.xpath('./text-property[name="displayName"]')
+        _el = el.xpath('./text-property[@name="displayName"]')
 
         params = el.xpath('./parameters')
         childs = []
