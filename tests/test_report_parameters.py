@@ -5,7 +5,7 @@ from pybirt import ParameterGroup
 
 def test_empty_parameter_group():
     el = lxml.html.fromstring('<parameter-group name="NewParameterGroup1" id="144"/>')
-    _ = ParameterGroup.build(el)
+    ParameterGroup.build(el)
 
 
 def test_parameter_group():
