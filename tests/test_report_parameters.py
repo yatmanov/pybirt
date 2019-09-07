@@ -8,7 +8,7 @@ def test_empty_parameter_group():
     ParameterGroup.build(el)
 
 
-def test_parameter_group():
+def test_parameter_group_without_parameters():
     name = 'NewParameterGroup1'
     display_name = 'DisplayName1'
     el = lxml.html.fromstring(
@@ -19,3 +19,4 @@ def test_parameter_group():
     group = ParameterGroup.build(el)
     assert group.name == name
     assert group.display_name == display_name
+    assert group.parameters == []
