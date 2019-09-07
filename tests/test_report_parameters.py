@@ -38,3 +38,38 @@ def test_is_required_by_default_is_true(empty_scalar):
 
 def test_is_hidden_by_default_is_false(empty_scalar):
     assert ScalarParameter.build(empty_scalar).is_hidden is False
+
+
+def test_scalar_parameter():
+    name = 'OrderNumber'
+    description = 'Order number for the invoice'
+    data_type = 'string'
+    display_format = 'text-box'
+    el = lxml.html.fromstring(
+        f'<scalar-parameter name="{name}" id="5">'
+        f'    <text-property name="displayName">Order Number</text-property>'
+        f'    <property name="hidden">true</property>'
+        f'    <text-property name="helpText">{description}</text-property>'
+        f'    <text-property name="promptText">rrstdstd</text-property>'
+        f'    <property name="valueType">static</property>'
+        f'    <property name="isRequired">false</property>'
+        f'    <property name="dataType">{data_type}</property>'
+        f'    <property name="distinct">true</property>'
+        f'    <simple-property-list name="defaultValue">'
+        f'        <value type="constant">rsh</value>'
+        f'    </simple-property-list>'
+        f'    <list-property name="selectionList"/>'
+        f'    <property name="paramType">simple</property>'
+        f'    <property name="controlType">{display_format}</property>'
+        f'    <structure name="format">'
+        f'        <property name="category">Unformatted</property>'
+        f'    </structure>'
+        f'</scalar-parameter>'
+    )
+    sc = ScalarParameter.build(el)
+    assert sc.name == name
+    assert sc.description == description
+    assert sc.data_type == data_type
+    assert sc.display_format == display_format
+    assert sc.is_required is False
+    assert sc.is_hidden
